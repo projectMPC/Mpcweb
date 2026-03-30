@@ -1,32 +1,51 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Download, ArrowLeft, CreditCard, FileText, User, Hash } from "lucide-react";
+import {
+  Download,
+  ArrowLeft,
+  CreditCard,
+  FileText,
+  User,
+  Hash,
+} from "lucide-react";
 import "./resultDetail.css";
 
 const ResultDetail = () => {
-  const { state: result } = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  if (!result) return (
-    <div className="error-container">
-      <h2>No Data Found ❌</h2>
-      <button onClick={() => navigate(-1)}>Go Back</button>
-    </div>
-  );
+  const result = location.state;
 
-  const hasBacklog = result.subjects.some(s => s.result === "FAIL");
+  // ✅ Handle direct URL access (no state)
+  if (!result) {
+    return (
+      <div className="error-container">
+        <h2>No Data Found ❌</h2>
+        <p>Please go back and select a result first.</p>
+        <button onClick={() => navigate("/home")}>Go to Home</button>
+      </div>
+    );
+  }
+
+  // ✅ Safe check to prevent crash
+  const hasBacklog = result.subjects?.some(
+    (s) => s.result === "FAIL"
+  );
 
   return (
     <div className="detail-page">
       <div className="detail-header">
-        <button className="icon-back-btn" onClick={() => navigate(-1)}>
+        <button
+          className="icon-back-btn"
+          onClick={() => navigate(-1)}
+        >
           <ArrowLeft size={20} />
         </button>
         <h1>Grade Sheet Details</h1>
       </div>
 
       <div className="detail-card">
-        {/* Student Profile Header */}
+        {/* Student Profile */}
         <div className="student-profile-section">
           <div className="info-item">
             <User size={18} className="icon" />
@@ -35,6 +54,7 @@ const ResultDetail = () => {
               <p>{result.name}</p>
             </div>
           </div>
+
           <div className="info-item">
             <Hash size={18} className="icon" />
             <div>
@@ -42,6 +62,7 @@ const ResultDetail = () => {
               <p>{result.regNo}</p>
             </div>
           </div>
+
           <div className="info-item">
             <FileText size={18} className="icon" />
             <div>
@@ -51,23 +72,28 @@ const ResultDetail = () => {
           </div>
         </div>
 
-        {/* Grades Table */}
+        {/* Table */}
         <div className="table-container">
           <table className="grade-table">
             <thead>
               <tr>
                 <th>Subject Code</th>
                 <th>Letter Grade</th>
-                <th>Result Status</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              {result.subjects.map((sub, i) => (
-                <tr key={i} className={sub.result === "FAIL" ? "row-fail" : ""}>
+              {result.subjects?.map((sub, i) => (
+                <tr
+                  key={i}
+                  className={sub.result === "FAIL" ? "row-fail" : ""}
+                >
                   <td>{sub.code}</td>
                   <td className="grade-weight">{sub.grade}</td>
                   <td>
-                    <span className={`status-tag ${sub.result.toLowerCase()}`}>
+                    <span
+                      className={`status-tag ${sub.result.toLowerCase()}`}
+                    >
                       {sub.result}
                     </span>
                   </td>
@@ -77,7 +103,7 @@ const ResultDetail = () => {
           </table>
         </div>
 
-        {/* GPA Summary */}
+        {/* Footer */}
         <div className="footer-summary">
           <div className="gpa-display">
             <span>Cumulative GPA</span>
@@ -85,21 +111,30 @@ const ResultDetail = () => {
           </div>
 
           <div className="action-group">
-            <button className="btn-download" onClick={() => window.print()}>
+            <button
+              className="btn-download"
+              onClick={() => window.print()}
+            >
               <Download size={18} /> Download Marksheet
             </button>
 
             {hasBacklog && (
-              <button className="btn-backlog" onClick={() => navigate("/backlog-payment", { state: result })}>
+              <button
+                className="btn-backlog"
+                onClick={() =>
+                  navigate("/backlog-payment", { state: result })
+                }
+              >
                 <CreditCard size={18} /> Register Backlog & Pay
               </button>
             )}
           </div>
         </div>
       </div>
-      
+
       <p className="disclaimer">
-        * This is a computer-generated document. For official purposes, please collect the original marksheet from the university office.
+        * This is a computer-generated document. For official purposes,
+        please collect the original marksheet from the university office.
       </p>
     </div>
   );

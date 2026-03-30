@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import {
   GraduationCap,
-  Award,
   AlertTriangle,
   CheckCircle2,
   ArrowLeft,
@@ -12,19 +11,26 @@ import "./resultPage.css";
 const Result = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const regNo = localStorage.getItem("regNo") || "21BCE0001";
 
-    fetch(`http://localhost:5000/api/result/${regNo}`)
-      .then((res) => res.json())
+    const API = import.meta.env.VITE_API_URL;
+
+    fetch(`${API}/api/result/${regNo}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch results");
+        }
+        return res.json();
+      })
       .then((data) => {
         setResults(Array.isArray(data) ? data : [data]);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Error fetching results:", err);
         setLoading(false);
       });
   }, []);
@@ -41,7 +47,6 @@ const Result = () => {
   return (
     <div className="result-page">
       <header className="page-header">
-        {/* --- New Back Button --- */}
         <button className="back-btn" onClick={() => navigate("/home")}>
           <ArrowLeft size={18} />
           <span>Back to Dashboard</span>
@@ -56,11 +61,15 @@ const Result = () => {
 
       <div className="results-grid">
         {results.map((result, i) => {
-          const hasBacklog = result.subjects.some((s) => s.result === "FAIL");
+          const hasBacklog = result.subjects?.some(
+            (s) => s.result === "FAIL"
+          );
 
           return (
             <div
-              className={`result-card ${hasBacklog ? "border-fail" : "border-pass"}`}
+              className={`result-card ${
+                hasBacklog ? "border-fail" : "border-pass"
+              }`}
               key={i}
             >
               <div className="card-header">
@@ -93,7 +102,7 @@ const Result = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {result.subjects.map((sub, index) => (
+                    {result.subjects?.map((sub, index) => (
                       <tr key={index}>
                         <td>{sub.code}</td>
                         <td className="grade-cell">{sub.grade}</td>
@@ -112,7 +121,9 @@ const Result = () => {
 
               <div className="card-footer">
                 <div
-                  className={`summary-badge ${hasBacklog ? "fail" : "pass"}`}
+                  className={`summary-badge ${
+                    hasBacklog ? "fail" : "pass"
+                  }`}
                 >
                   {hasBacklog ? (
                     <>
@@ -124,9 +135,12 @@ const Result = () => {
                     </>
                   )}
                 </div>
+
                 <button
                   className="view-detail-btn"
-                  onClick={() => navigate("/result-detail", { state: result })}
+                  onClick={() =>
+                    navigate("/result-detail", { state: result })
+                  }
                 >
                   Detailed View
                 </button>

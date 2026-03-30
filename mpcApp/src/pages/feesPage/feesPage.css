@@ -1,0 +1,127 @@
+/* Page */
+.fees-page {
+  padding: 40px;
+  font-family: "Inter", sans-serif;
+  background: #f6f8fb;
+  min-height: 100vh;
+}
+
+.fees-page h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* Grid */
+.fees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Cards */
+.fee-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: 0.3s;
+  position: relative;
+}
+
+.fee-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Highlight styles */
+.fee-card.paid {
+  border: 1px solid #d1fae5;
+}
+
+.fee-card.pending {
+  border: 1px solid #fef3c7;
+}
+
+.fee-card.fine-card {
+  border: 1px solid #fee2e2;
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Text */
+.fee-card h2 {
+  margin-top: 20px;
+}
+
+.fee-card h3 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.fine {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  margin: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Variants */
+.btn.dark {
+  background: #111827;
+  color: white;
+}
+
+.btn.pay {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1d4ed8;
+}
+
+.btn.light {
+  background: #f3f4f6;
+}
+
+/* List */
+ul {
+  margin-top: 10px;
+  padding-left: 15px;
+  font-size: 14px;
+  color: #6b7280;
+}

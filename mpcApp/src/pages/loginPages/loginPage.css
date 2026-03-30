@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Multi-stop gradient for a more "expensive" look */
+  background: radial-gradient(circle at top left, #f8faff 0%, #e2e8f0 50%, #f1f5f9 100%);
+  overflow: hidden;
+}
+
+/* 2. Enhanced Glass Box */
+.glass-box {
+  width: 420px;
+  padding: 48px 40px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Dual-layer border: creates a "jewelry" edge effect */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.03),
+    0 40px 80px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5); /* Inner highlight */
+  
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+/* 3. Typography & Logo */
+.university-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 20px;
+  /* Make the logo pop against the glass */
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.08));
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a; /* Deeper Navy */
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+form h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 4. Modern Input Fields */
+.input-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(248, 250, 252, 0.8);
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #3b82f6; /* Modern Blue Accent */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+/* 5. The "Main Action" Button */
+button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+  border-radius: 14px;
+  border: none;
+  background: #0f172a; 
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+button:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* 6. Footer & Text Links */
+p {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+span {
+  color: #3b82f6;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 4px;
+  transition: color 0.2s;
+}
+
+span:hover {
+  color: #2563eb;
+  text-decoration: none;
+}

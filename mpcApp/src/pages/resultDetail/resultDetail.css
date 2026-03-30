@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.detail-page {
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.icon-back-btn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  transition: 0.2s;
+}
+
+.icon-back-btn:hover {
+  background: #f1f5f9;
+  transform: translateX(-3px);
+}
+
+.detail-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Main Card */
+.detail-card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+}
+
+/* Student Info Section */
+.student-profile-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 30px;
+}
+
+.info-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.info-item .icon { color: #3b82f6; margin-top: 4px; }
+
+.info-item label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.info-item p {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Grade Table */
+.table-container {
+  margin-bottom: 40px;
+}
+
+.grade-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grade-table th {
+  text-align: left;
+  padding: 15px;
+  background: #f8fafc;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.grade-table td {
+  padding: 18px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+
+.grade-weight { font-weight: 700; color: #0f172a; }
+
+.status-tag {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-tag.pass { background: #dcfce7; color: #15803d; }
+.status-tag.fail { background: #fee2e2; color: #b91c1c; }
+
+.row-fail { background-color: #fffafb; }
+
+/* Summary & Buttons */
+.footer-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.gpa-display span { font-size: 13px; color: #64748b; }
+.gpa-display h2 { font-size: 32px; font-weight: 800; color: #0f172a; }
+
+.action-group { display: flex; gap: 12px; }
+
+.btn-download, .btn-backlog {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.btn-download { background: #f1f5f9; color: #1e293b; }
+.btn-download:hover { background: #e2e8f0; }
+
+.btn-backlog { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
+.btn-backlog:hover { background: #dc2626; transform: translateY(-2px); }
+
+.disclaimer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Print Optimization */
+@media print {
+  .detail-page { padding: 0; background: white; }
+  .detail-card { box-shadow: none; border: 1px solid #eee; }
+  .action-group, .icon-back-btn { display: none; }
+}

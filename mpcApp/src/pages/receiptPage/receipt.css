@@ -1,0 +1,194 @@
+/* 1. Global Imports & Reset */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.receipt-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Arctic Radial Gradient */
+  background: radial-gradient(circle at top left, #f8faff 0%, #e2e8f0 50%, #f1f5f9 100%);
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
+}
+
+/* 2. The Professional Receipt Card */
+.receipt-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 32px;
+  position: relative;
+  text-align: center;
+  /* Premium Shadow & Highlight */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.03),
+    0 40px 80px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* 3. Status Header */
+.status-icon {
+  width: 64px;
+  height: 64px;
+  background: #dcfce7; /* Soft Green */
+  color: #15803d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.15);
+}
+
+.receipt-card h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 30px;
+}
+
+/* 4. Amount Highlight */
+.total-section {
+  background: rgba(15, 23, 42, 0.03);
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+.total-section p {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.total-section h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  font-family: 'Inter', sans-serif;
+}
+
+/* 5. Detail Rows */
+.receipt-details {
+  border-top: 1px dashed #cbd5e1;
+  border-bottom: 1px dashed #cbd5e1;
+  padding: 20px 0;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.detail-row label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.detail-row span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  /* Use Mono font for numbers and IDs */
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* 6. Action Buttons */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #0f172a;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+.btn-primary:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+}
+
+.btn-secondary {
+  background: white;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+/* 7. Footer Info */
+.footer-note {
+  margin-top: 25px;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* 8. Error State Styling */
+.error-state {
+  border-top: 5px solid #ef4444;
+}
+
+/* 9. Print Optimization */
+@media print {
+  .receipt-container {
+    background: white;
+    padding: 0;
+  }
+  .receipt-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    background: white;
+    max-width: 100%;
+  }
+  .button-group, .status-icon {
+    display: none;
+  }
+}

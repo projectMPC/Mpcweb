@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Removes the gray highlight on mobile taps for a native feel */
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --samsung-blue: #0078FF; /* Brighter, more vibrant One UI blue */
+  --bg-surface: #F2F2F7;   /* Light gray Samsung background */
+  --card-bg: #FFFFFF;
+  --text-primary: #000000;
+  --text-secondary: #8E8E93;
+  --radius-xl: 32px;       /* Signature Samsung Pebble corners */
+  --radius-lg: 24px;
+}
+
+body {
+  background-color: var(--bg-surface);
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.subjects-page-container {
+  display: flex;
+  min-height: 100vh;
+  padding: 60px 5%;
+  gap: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- Left Info Section (Reachability Style) --- */
+.info-section {
+  flex: 1;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 40px; /* Pushes content down for thumb-reachability */
+}
+
+.back-link {
+  color: var(--samsung-blue);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.services-badge {
+  background: #E5E5EA;
+  color: #3A3A3C;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.info-section h1 {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.info-section p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+
+.get-started-btn {
+  padding: 16px 32px;
+  background: var(--samsung-blue);
+  color: white;
+  border: none;
+  border-radius: 30px; /* Pill shape */
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  box-shadow: 0 8px 16px rgba(0, 120, 255, 0.15);
+}
+
+.get-started-btn:active {
+  transform: scale(0.96); /* Haptic feel */
+}
+
+/* --- Right Grid Section --- */
+.grid-section {
+  flex: 1.4;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 28px;
+  border-radius: var(--radius-xl);
+  background: var(--card-bg);
+  border: none; /* One UI avoids borders, uses soft shadows */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hover/Active states */
+.feature-card:active {
+  transform: scale(0.97);
+  background-color: #F9F9F9;
+}
+
+/* Blue Highlight Card */
+.feature-card.blue-active {
+  background: var(--samsung-blue);
+  box-shadow: 0 12px 24px rgba(0, 120, 255, 0.25);
+}
+
+.feature-card.blue-active .icon-circle {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.feature-card.blue-active h3,
+.feature-card.blue-active p {
+  color: white;
+}
+
+.icon-circle {
+  width: 52px;
+  height: 52px;
+  background: #F2F2F7;
+  color: var(--samsung-blue);
+  border-radius: 16px; /* Squircle/Rounded Rect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.card-subtext {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: #48484A;
+  line-height: 1.5;
+}
+
+/* Loading Spinner */
+.loader {
+  width: 35px;
+  height: 35px;
+  border: 4px solid #E5E5EA;
+  border-top: 4px solid var(--samsung-blue);
+  border-radius: 50%;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Responsive tweaks */
+@media (max-width: 1100px) {
+  .subjects-page-container {
+    flex-direction: column;
+    padding: 40px 24px;
+    gap: 40px;
+  }
+  .info-section {
+    max-width: 100%;
+    text-align: left;
+  }
+}

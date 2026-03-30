@@ -89,7 +89,7 @@ const Login = () => {
           <img src={logo} alt="VIT Logo" className="university-logo" />
         </div>
 
-        <h1 className="title">VIT University</h1>
+        <h1 className="title">M.P.C</h1>
 
         {isLogin ? (
           <form onSubmit={handleLogin} className="fade-in">

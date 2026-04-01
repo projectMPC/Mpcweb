@@ -12,6 +12,7 @@ const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState(null);
 
   const fee = location.state;
 
@@ -33,42 +34,51 @@ const Payment = () => {
     );
   }
 
+  // ✅ Handle Payment
   const handlePayment = async () => {
+    if (!selectedMethod) {
+      alert("Please select a payment method");
+      return;
+    }
+
     setLoading(true);
 
-    try {
-      const API = import.meta.env.VITE_API_URL;
+    // 🔥 Fake processing delay
+    setTimeout(async () => {
+      try {
+        const API = import.meta.env.VITE_API_URL;
 
-      const res = await fetch(
-        `${API}/api/fees/pay/${fee._id}`,
-        {
-          method: "PUT",
-        }
-      );
+        const res = await fetch(
+          `${API}/api/fees/pay/${fee._id}`,
+          {
+            method: "PUT",
+          }
+        );
 
-      if (!res.ok) {
-        throw new Error("Payment failed");
+        if (!res.ok) throw new Error("Payment failed");
+
+        // ✅ Navigate to receipt
+        navigate("/receipt", {
+          state: {
+            ...fee,
+            status: "Paid",
+            paidDate: new Date().toISOString(),
+            method: selectedMethod,
+          },
+        });
+      } catch (err) {
+        console.error("Payment Error:", err);
+        alert("Payment Failed ⚠️");
+      } finally {
+        setLoading(false);
       }
-
-      // ✅ Navigate with updated data
-      navigate("/receipt", {
-        state: {
-          ...fee,
-          status: "Paid",
-          paidDate: new Date().toISOString(),
-        },
-      });
-    } catch (err) {
-      console.error("Payment Error:", err);
-      alert("Payment Failed ⚠️");
-    } finally {
-      setLoading(false);
-    }
+    }, 2500); // ⏳ 2.5 sec delay
   };
 
   return (
     <div className="payment-container">
       <div className="payment-card">
+
         {/* Header */}
         <div className="payment-header">
           <div className="icon-box">
@@ -108,18 +118,64 @@ const Payment = () => {
           </div>
         </div>
 
-        {/* Security */}
+        {/* 💳 Payment Methods */}
+        <div className="payment-methods">
+          <h3>Select Payment Method</h3>
+
+          <div className="methods-grid">
+
+            <div
+              className={`method ${selectedMethod === "gpay" ? "active" : ""}`}
+              onClick={() => setSelectedMethod("gpay")}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Pay_Logo.svg"
+                alt="GPay"
+              />
+              <p>Google Pay</p>
+            </div>
+
+            <div
+              className={`method ${selectedMethod === "phonepe" ? "active" : ""}`}
+              onClick={() => setSelectedMethod("phonepe")}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/0/09/PhonePe_Logo.svg"
+                alt="PhonePe"
+              />
+              <p>PhonePe</p>
+            </div>
+
+            <div
+              className={`method ${selectedMethod === "card" ? "active" : ""}`}
+              onClick={() => setSelectedMethod("card")}
+            >
+              <CreditCard size={28} />
+              <p>Card</p>
+            </div>
+
+          </div>
+        </div>
+
+        {/* 🔐 Security */}
         <div className="security-tag">
           <ShieldCheck size={16} />
           <span>Encrypted Secure Payment</span>
         </div>
+
+        {/* 🔄 Processing UI */}
+        {loading && (
+          <div className="processing">
+            <p>Processing via {selectedMethod?.toUpperCase()}...</p>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="payment-actions">
           <button
             className="pay-btn"
             onClick={handlePayment}
-            disabled={loading}
+            disabled={loading || !selectedMethod}
           >
             {loading ? "Processing..." : `Pay ₹${fee.amount}`}
           </button>
@@ -131,9 +187,11 @@ const Payment = () => {
             <XCircle size={16} /> Cancel Transaction
           </button>
         </div>
+
       </div>
     </div>
   );
 };
 
 export default Payment;
+

@@ -129,7 +129,7 @@ const Payment = () => {
               onClick={() => setSelectedMethod("gpay")}
             >
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Pay_Logo.svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg"
                 alt="GPay"
               />
               <p>Google Pay</p>
@@ -140,7 +140,7 @@ const Payment = () => {
               onClick={() => setSelectedMethod("phonepe")}
             >
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/0/09/PhonePe_Logo.svg"
+                src="https://commons.wikimedia.org/wiki/File:PhonePe_Logo.svg"
                 alt="PhonePe"
               />
               <p>PhonePe</p>

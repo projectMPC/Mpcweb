@@ -38,7 +38,7 @@ const Home = () => {
         <div className="header-brand">
           <img src={logo} alt="University Logo" className="header-logo" />
           <div className="header-text">
-            <h1>VELLORE INSTITUTE OF TECHNOLOGY</h1>
+            <h1>Maharaja Purna Chandra Autonomous College,Baripada</h1>
           </div>
         </div>
         <img src={universityBanner} alt="Campus" className="header-banner-img" />

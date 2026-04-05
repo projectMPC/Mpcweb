@@ -1,212 +1,131 @@
 import React, { useState, useEffect } from "react";
 import "./homePage.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.png"; // Your university logo
 import studentPhoto from "../../assets/student-pfp.jpg";
+import universityBanner from "../../assets/uni-banner.jpg"; // Add a banner image
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("personal");
-
   const [formData, setFormData] = useState(null);
 
-  // 🔥 Fetch user data from MongoDB
   useEffect(() => {
-  const regNo = localStorage.getItem("regNo");
+    const regNo = localStorage.getItem("regNo");
+    if (!regNo) return;
 
-  console.log("regNo:", regNo);
+    fetch(`https://mpcweb-5186.onrender.com/api/user/${regNo}`)
+      .then((res) => res.json())
+      .then((data) => setFormData(data))
+      .catch((err) => console.log("Fetch Error:", err));
+  }, []);
 
-  if (!regNo) {
-    console.log("No regNo found");
-    return;
-  }
-
- fetch(`https://mpcweb-5186.onrender.com/api/user/${regNo}`)
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Failed to fetch user");
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log("User Data:", data);
-
-      if (!data || !data.regNo) {
-        console.log("Invalid user data");
-        return;
-      }
-
-      setFormData(data);
-    })
-    .catch((err) => console.log("Fetch Error:", err));
-}, []);
-
-  // 🔹 Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Cancel Reset
-  const handleCancel = () => {
-    alert("Changes discarded");
-    window.location.reload();
-  };
-
-  // 🔹 Save (you can later connect backend update)
-  const handleSave = () => {
-    alert("Changes saved (frontend only)");
-  };
-
-  // 🔹 Logout
   const handleLogout = () => {
     localStorage.removeItem("regNo");
-    alert("Logged out");
     navigate("/");
   };
 
-  // ⏳ Loading
-  if (!formData) {
-    return <h2 style={{ textAlign: "center" }}>Loading profile...</h2>;
-  }
+  if (!formData) return <div className="loading">Loading profile...</div>;
 
   return (
-    <div className="dashboard">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="logo-box">
-          <img src={logo} alt="logo" />
+    <div className="dashboard-container">
+      {/* Top Professional Banner */}
+      <header className="uni-header">
+        <div className="header-brand">
+          <img src={logo} alt="University Logo" className="header-logo" />
+          <div className="header-text">
+            <h1>VELLORE INSTITUTE OF TECHNOLOGY</h1>
+          </div>
         </div>
+        <img src={universityBanner} alt="Campus" className="header-banner-img" />
+      </header>
 
-        <nav className="nav-menu">
-          <span className="active" onClick={() => navigate("/home")}>
-            Dashboard
-          </span>
+      <div className="main-layout">
+        {/* Sidebar */}
+        <aside className="sidebar">
+          <nav className="nav-menu">
+            <div className="nav-item active" onClick={() => navigate("/home")}>Dashboard</div>
+            <div className="nav-item" onClick={() => navigate("/result")}>Results</div>
+            <div className="nav-item" onClick={() => navigate("/fees")}>Fees</div>
+            <div className="nav-item" onClick={() => navigate("/subjects")}>Subjects</div>
+            <div className="nav-item" onClick={() => alert("Settings coming soon")}>⚙️ Settings</div>
+          </nav>
+          <div className="sidebar-footer">
+            <div className="profile-mini">
+              <div className="mini-avatar">👤</div>
+              <span>Profile</span>
+            </div>
+          </div>
+        </aside>
 
-          <span onClick={() => navigate("/result")}>Results</span>
-          <span onClick={() => navigate("/fees")}>Fees</span>
-          <span onClick={() => navigate("/subjects")}>Subjects</span>
-
-          <span onClick={() => alert("Settings page coming soon")}>
-            ⚙️ Settings
-          </span>
-        </nav>
-
-        <div className="profile-mini">
-          <img src={studentPhoto} alt="student" />
-          <span>Profile</span>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="main-area">
-        {/* Profile Card */}
-        <div className="profile-card">
-          <img src={studentPhoto} alt="student" />
-
-          <h3>
-            {formData.firstName} {formData.lastName}
-          </h3>
-
-          <p>{formData.branch}</p>
-
-          <button
-            className={activeTab === "personal" ? "active-tab" : ""}
-            onClick={() => setActiveTab("personal")}
-          >
-            Personal Info
-          </button>
-
-          <button
-            className={activeTab === "login" ? "active-tab" : ""}
-            onClick={() => setActiveTab("login")}
-          >
-            Login & Password
-          </button>
-
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-
-        {/* Details Section */}
-        <div className="details-card">
-          {activeTab === "personal" && (
-            <>
-              <h2>Personal Information</h2>
-
-              <div className="form-grid">
-                <input
-                  name="firstName"
-                  value={formData.firstName || ""}
-                  onChange={handleChange}
-                />
-
-                <input
-                  name="lastName"
-                  value={formData.lastName || ""}
-                  onChange={handleChange}
-                />
-
-                <input
-                  name="email"
-                  value={formData.email || ""}
-                  onChange={handleChange}
-                />
-
-                <input
-                  name="regNo"
-                  value={formData.regNo || ""}
-                  readOnly
-                />
-
-                <input
-                  name="branch"
-                  value={formData.branch || ""}
-                  onChange={handleChange}
-                />
-
-                <input
-                  name="year"
-                  value={formData.year || ""}
-                  onChange={handleChange}
-                />
-
-                <input
-                  name="location"
-                  value={formData.location || ""}
-                  onChange={handleChange}
-                />
+        {/* Content Area */}
+        <main className="content-area">
+          <h2 className="welcome-msg">Welcome, {formData.firstName}</h2>
+          
+          <div className="profile-grid">
+            {/* Left Card: Quick Profile */}
+            <div className="profile-card">
+              <div className="avatar-container">
+                <img src={studentPhoto} alt="student" className="main-avatar" />
               </div>
+              <h3>{formData.firstName} {formData.lastName}</h3>
+              <p className="branch-text">{formData.branch}</p>
 
-              <div className="action-buttons">
-                <button className="cancel" onClick={handleCancel}>
-                  Cancel
+              <div className="tab-buttons">
+                <button 
+                  className={activeTab === "personal" ? "tab active" : "tab"} 
+                  onClick={() => setActiveTab("personal")}
+                >
+                  Personal Info
                 </button>
-
-                <button className="save" onClick={handleSave}>
-                  Save
+                <button 
+                  className={activeTab === "login" ? "tab" : "tab active"} 
+                  onClick={() => setActiveTab("login")}
+                >
+                  Login & Password
                 </button>
+                <button className="tab logout-btn" onClick={handleLogout}>Logout</button>
               </div>
-            </>
-          )}
+            </div>
 
-          {/* Login Tab */}
-          {activeTab === "login" && (
-            <>
-              <h2>Login & Password</h2>
-
-              <div className="form-grid">
-                <input placeholder="Current Password" type="password" />
-                <input placeholder="New Password" type="password" />
-                <input placeholder="Confirm Password" type="password" />
+            {/* Right Card: Details Form */}
+            <div className="details-card">
+              {activeTab === "personal" ? (
+                <>
+                  <h3>Personal Information</h3>
+                  <div className="form-grid">
+                    <div className="input-group"><input name="firstName" value={formData.firstName} onChange={handleChange} /></div>
+                    <div className="input-group"><input name="lastName" value={formData.lastName} onChange={handleChange} /></div>
+                    <div className="input-group"><input name="email" value={formData.email} onChange={handleChange} /></div>
+                    <div className="input-group"><input name="regNo" value={formData.regNo} readOnly /></div>
+                    <div className="input-group"><input name="branch" value={formData.branch} onChange={handleChange} /></div>
+                    <div className="input-group"><input name="year" value={formData.year} onChange={handleChange} /></div>
+                    <div className="input-group location-full"><input name="location" value={formData.location} onChange={handleChange} /></div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Login & Password</h3>
+                  <div className="form-grid">
+                    <input className="full-width" placeholder="Current Password" type="password" />
+                    <input className="full-width" placeholder="New Password" type="password" />
+                    <input className="full-width" placeholder="Confirm Password" type="password" />
+                  </div>
+                </>
+              )}
+              
+              <div className="form-actions">
+                <button className="btn-cancel" onClick={() => window.location.reload()}>Cancel</button>
+                <button className="btn-save">Save</button>
               </div>
-
-              <div className="action-buttons">
-                <button className="cancel">Cancel</button>
-                <button className="save">Update Password</button>
-              </div>
-            </>
-          )}
-        </div>
-      </main>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

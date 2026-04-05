@@ -52,7 +52,7 @@ body {
   width: auto; /* Ensures aspect ratio */
   object-fit: contain; /* Prevents clipping */
   height: 85px;
-  filter: brightness(0) invert(1); /* Makes logo white */
+  
   transition: transform 0.3s ease;
 }
 

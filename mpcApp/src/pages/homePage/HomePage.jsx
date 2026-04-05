@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./homePage.css";
 import logo from "../../assets/logo.png";
 import studentPhoto from "../../assets/student-pfp.jpg";
@@ -6,18 +6,27 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-
   const [activeTab, setActiveTab] = useState("personal");
 
-  const [formData, setFormData] = useState({
-    firstName: "Sthita",
-    lastName: "Pragyan",
-    email: "student@vit.ac.in",
-    regNo: "21BCE0001",
-    branch: "ETC",
-    year: "3rd Year",
-    location: "India",
-  });
+  const [formData, setFormData] = useState(null);
+
+  // 🔥 Fetch user data from MongoDB
+  useEffect(() => {
+    const regNo = localStorage.getItem("regNo");
+
+    if (!regNo) {
+      console.log("No regNo found");
+      return;
+    }
+
+    fetch(`http://localhost:5000/api/user/${regNo}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("User Data:", data);
+        setFormData(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   // 🔹 Handle Input Change
   const handleChange = (e) => {
@@ -27,19 +36,25 @@ const Home = () => {
   // 🔹 Cancel Reset
   const handleCancel = () => {
     alert("Changes discarded");
-    window.location.reload(); // simple reset
+    window.location.reload();
   };
 
-  // 🔹 Save
+  // 🔹 Save (you can later connect backend update)
   const handleSave = () => {
-    alert("Changes saved (demo)");
+    alert("Changes saved (frontend only)");
   };
 
   // 🔹 Logout
   const handleLogout = () => {
+    localStorage.removeItem("regNo");
     alert("Logged out");
     navigate("/");
   };
+
+  // ⏳ Loading
+  if (!formData) {
+    return <h2 style={{ textAlign: "center" }}>Loading profile...</h2>;
+  }
 
   return (
     <div className="dashboard">
@@ -55,9 +70,7 @@ const Home = () => {
           </span>
 
           <span onClick={() => navigate("/result")}>Results</span>
-
           <span onClick={() => navigate("/fees")}>Fees</span>
-
           <span onClick={() => navigate("/subjects")}>Subjects</span>
 
           <span onClick={() => alert("Settings page coming soon")}>
@@ -76,9 +89,11 @@ const Home = () => {
         {/* Profile Card */}
         <div className="profile-card">
           <img src={studentPhoto} alt="student" />
+
           <h3>
             {formData.firstName} {formData.lastName}
           </h3>
+
           <p>{formData.branch}</p>
 
           <button
@@ -107,39 +122,43 @@ const Home = () => {
               <div className="form-grid">
                 <input
                   name="firstName"
-                  value={formData.firstName}
+                  value={formData.firstName || ""}
                   onChange={handleChange}
                 />
 
                 <input
                   name="lastName"
-                  value={formData.lastName}
+                  value={formData.lastName || ""}
                   onChange={handleChange}
                 />
 
                 <input
                   name="email"
-                  value={formData.email}
+                  value={formData.email || ""}
                   onChange={handleChange}
                 />
 
-                <input name="regNo" value={formData.regNo} readOnly />
+                <input
+                  name="regNo"
+                  value={formData.regNo || ""}
+                  readOnly
+                />
 
                 <input
                   name="branch"
-                  value={formData.branch}
+                  value={formData.branch || ""}
                   onChange={handleChange}
                 />
 
                 <input
                   name="year"
-                  value={formData.year}
+                  value={formData.year || ""}
                   onChange={handleChange}
                 />
 
                 <input
                   name="location"
-                  value={formData.location}
+                  value={formData.location || ""}
                   onChange={handleChange}
                 />
               </div>

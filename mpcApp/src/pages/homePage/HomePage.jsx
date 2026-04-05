@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "./homePage.css";
-import logo from "../../assets/logo.png"; // Your university logo
+import logo from "../../assets/logo.png"; 
 import studentPhoto from "../../assets/student-pfp.jpg";
-import universityBanner from "../../assets/uni-banner.jpg"; // Add a banner image
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("personal");
   const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch user data
   useEffect(() => {
     const regNo = localStorage.getItem("regNo");
-    if (!regNo) return;
+    if (!regNo) {
+      navigate("/"); // Redirect if no session
+      return;
+    }
 
     fetch(`https://mpcweb-5186.onrender.com/api/user/${regNo}`)
-      .then((res) => res.json())
-      .then((data) => setFormData(data))
-      .catch((err) => console.log("Fetch Error:", err));
-  }, []);
+      .then((res) => {
+        if (!res.ok) throw new Error("User not found");
+        return res.json();
+      })
+      .then((data) => {
+        setFormData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Fetch Error:", err);
+        setLoading(false);
+      });
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,23 +42,27 @@ const Home = () => {
     navigate("/");
   };
 
-  if (!formData) return <div className="loading">Loading profile...</div>;
+  if (loading) return (
+    <div className="loading-screen">
+      <div className="spinner"></div>
+      <p>Loading MPC Profile...</p>
+    </div>
+  );
 
   return (
     <div className="dashboard-container">
-      {/* Top Professional Banner */}
+      {/* 1. Improved Banner: Using a background-image overlay in CSS for better readability */}
       <header className="uni-header">
         <div className="header-brand">
-          <img src={logo} alt="University Logo" className="header-logo" />
+          <img src={logo} alt="MPC Logo" className="header-logo" />
           <div className="header-text">
-            <h1>Maharaja Purna Chandra Autonomous College,Baripada</h1>
+            <h1>Maharaja Purna Chandra Autonomous College, Baripada</h1>
+            <p>Student Management Portal</p>
           </div>
         </div>
-        <img src={universityBanner} alt="Campus" className="header-banner-img" />
       </header>
 
       <div className="main-layout">
-        {/* Sidebar */}
         <aside className="sidebar">
           <nav className="nav-menu">
             <div className="nav-item active" onClick={() => navigate("/home")}>Dashboard</div>
@@ -54,20 +71,19 @@ const Home = () => {
             <div className="nav-item" onClick={() => navigate("/subjects")}>Subjects</div>
             <div className="nav-item" onClick={() => alert("Settings coming soon")}>⚙️ Settings</div>
           </nav>
+          
           <div className="sidebar-footer">
             <div className="profile-mini">
-              <div className="mini-avatar">👤</div>
-              <span>Profile</span>
+              <img src={studentPhoto} alt="pfp" className="mini-pfp" />
+              <span>{formData.firstName}</span>
             </div>
           </div>
         </aside>
 
-        {/* Content Area */}
         <main className="content-area">
-          <h2 className="welcome-msg">Welcome, {formData.firstName}</h2>
+          <h2 className="welcome-msg">Welcome back, {formData.firstName}!</h2>
           
           <div className="profile-grid">
-            {/* Left Card: Quick Profile */}
             <div className="profile-card">
               <div className="avatar-container">
                 <img src={studentPhoto} alt="student" className="main-avatar" />
@@ -77,13 +93,13 @@ const Home = () => {
 
               <div className="tab-buttons">
                 <button 
-                  className={activeTab === "personal" ? "tab active" : "tab"} 
+                  className={`tab ${activeTab === "personal" ? "active" : ""}`} 
                   onClick={() => setActiveTab("personal")}
                 >
                   Personal Info
                 </button>
                 <button 
-                  className={activeTab === "login" ? "tab" : "tab active"} 
+                  className={`tab ${activeTab === "login" ? "active" : ""}`} 
                   onClick={() => setActiveTab("login")}
                 >
                   Login & Password
@@ -92,35 +108,56 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Card: Details Form */}
             <div className="details-card">
               {activeTab === "personal" ? (
-                <>
+                <section>
                   <h3>Personal Information</h3>
                   <div className="form-grid">
-                    <div className="input-group"><input name="firstName" value={formData.firstName} onChange={handleChange} /></div>
-                    <div className="input-group"><input name="lastName" value={formData.lastName} onChange={handleChange} /></div>
-                    <div className="input-group"><input name="email" value={formData.email} onChange={handleChange} /></div>
-                    <div className="input-group"><input name="regNo" value={formData.regNo} readOnly /></div>
-                    <div className="input-group"><input name="branch" value={formData.branch} onChange={handleChange} /></div>
-                    <div className="input-group"><input name="year" value={formData.year} onChange={handleChange} /></div>
-                    <div className="input-group location-full"><input name="location" value={formData.location} onChange={handleChange} /></div>
+                    <div className="input-group">
+                      <label>First Name</label>
+                      <input name="firstName" value={formData.firstName || ""} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Last Name</label>
+                      <input name="lastName" value={formData.lastName || ""} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Email ID</label>
+                      <input name="email" value={formData.email || ""} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Registration No.</label>
+                      <input name="regNo" value={formData.regNo || ""} readOnly className="readonly-input" />
+                    </div>
+                    <div className="input-group">
+                      <label>Branch</label>
+                      <input name="branch" value={formData.branch || ""} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Academic Year</label>
+                      <input name="year" value={formData.year || ""} onChange={handleChange} />
+                    </div>
+                    <div className="input-group location-full">
+                      <label>Location</label>
+                      <input name="location" value={formData.location || ""} onChange={handleChange} />
+                    </div>
                   </div>
-                </>
+                </section>
               ) : (
-                <>
-                  <h3>Login & Password</h3>
+                <section>
+                  <h3>Login & Security</h3>
+                  <p className="hint">Update your portal password below.</p>
                   <div className="form-grid">
                     <input className="full-width" placeholder="Current Password" type="password" />
                     <input className="full-width" placeholder="New Password" type="password" />
-                    <input className="full-width" placeholder="Confirm Password" type="password" />
+                    <input className="full-width" placeholder="Confirm New Password" type="password" />
                   </div>
-                </>
+                </section>
               )}
               
               <div className="form-actions">
-                <button className="btn-cancel" onClick={() => window.location.reload()}>Cancel</button>
-                <button className="btn-save">Save</button>
+                <button className="btn-cancel" onClick={() => window.location.reload()}>Discard Changes</button>
+                <button className="btn-save" onClick={() => alert("Updated Successfully!")}>Save Changes</button>
               </div>
             </div>
           </div>

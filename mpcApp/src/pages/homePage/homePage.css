@@ -1,151 +1,347 @@
+/* --- CSS Variables & Reset --- */
 :root {
-  --primary-blue: #0b1426;
-  --accent-blue: #4483f2;
-  --bg-gray: #f4f7fe;
-  --text-dark: #1b2559;
+  --primary-blue: #0b1426;      /* Deep Navy for Header/Sidebar */
+  --accent-blue: #4483f2;       /* Vibrant Blue for Active States */
+  --bg-gray: #f4f7fe;           /* Light Background */
+  --text-dark: #1b2559;         /* Heading Color */
+  --text-muted: #707eae;        /* Label/Subtext Color */
+  --white: #ffffff;
+  --border-color: #e0e5f2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-gray);
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  color: var(--text-dark);
 }
 
 .dashboard-container {
-  background-color: var(--bg-gray);
   min-height: 100vh;
-  font-family: 'DM Sans', sans-serif;
-}
-
-/* Header Styling */
-.uni-header {
-  height: 120px;
-  background: var(--primary-blue);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-  color: white;
-  overflow: hidden;
+  flex-direction: column;
 }
 
-.header-brand { display: flex; align-items: center; gap: 20px; }
-.header-logo { height: 60px; filter: brightness(0) invert(1); }
-.header-banner-img { height: 100%; opacity: 0.4; }
+/* --- Professional Header Banner --- */
+.uni-header {
+  height: 180px;
+  /* Gradient overlay makes white text readable over any image */
+  background: linear-gradient(to right, rgba(11, 20, 38, 0.95), rgba(11, 20, 38, 0.6)), 
+              url('../../assets/uni-banner.jpg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 0 50px;
+  color: var(--white);
+  border-bottom: 4px solid var(--accent-blue);
+}
 
-/* Layout */
-.main-layout { display: flex; }
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
 
+.header-logo {
+  height: 85px;
+  filter: brightness(0) invert(1); /* Makes logo white */
+  transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+  transform: scale(1.05);
+}
+
+.header-text h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.header-text p {
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+/* --- Layout Structure --- */
+.main-layout {
+  display: flex;
+  flex: 1;
+}
+
+/* --- Sidebar Styling --- */
 .sidebar {
   width: 260px;
-  background: white;
-  height: calc(100vh - 120px);
-  padding: 20px;
+  background: var(--white);
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-right: 1px solid var(--border-color);
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .nav-item {
-  padding: 15px 20px;
-  margin-bottom: 5px;
+  padding: 14px 20px;
   cursor: pointer;
-  border-radius: 10px;
-  color: #a3aed0;
-  font-weight: 500;
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background: #f8faff;
+  color: var(--accent-blue);
 }
 
 .nav-item.active {
   background: var(--primary-blue);
-  color: white;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(11, 20, 38, 0.2);
 }
 
-/* Main Profile Grid */
+.sidebar-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.mini-pfp {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* --- Main Content Area --- */
 .content-area {
   flex: 1;
-  padding: 30px 50px;
+  padding: 40px;
+  overflow-y: auto;
 }
 
-.welcome-msg { color: var(--text-dark); margin-bottom: 25px; }
+.welcome-msg {
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+  font-weight: 800;
+}
 
+/* --- Dashboard Grid --- */
 .profile-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 25px;
+  grid-template-columns: 320px 1fr;
+  gap: 30px;
+  align-items: start;
 }
 
+/* --- Cards Styling --- */
 .profile-card, .details-card {
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: var(--white);
+  border-radius: 24px;
+  padding: 35px;
+  box-shadow: 0 10px 40px rgba(160, 175, 213, 0.15);
 }
 
-/* Profile Info (Left) */
-.profile-card { text-align: center; }
+/* Left Profile Card */
+.profile-card {
+  text-align: center;
+}
+
 .main-avatar {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  border: 4px solid #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  margin-bottom: 15px;
+  border: 5px solid var(--white);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  object-fit: cover;
 }
 
+.profile-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.branch-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+/* Tab Navigation inside Card */
 .tab-buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 12px;
 }
 
 .tab {
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 12px;
-  background: #f4f7fe;
-  color: #707eae;
+  border-radius: 14px;
+  background: var(--bg-gray);
+  color: var(--text-muted);
+  font-weight: 700;
   cursor: pointer;
-  font-weight: bold;
+  transition: 0.3s;
 }
 
 .tab.active {
   background: var(--accent-blue);
+  color: var(--white);
+  box-shadow: 0 4px 15px rgba(68, 131, 242, 0.3);
+}
+
+.logout-btn {
+  margin-top: 10px;
+  background: #fff1f1;
+  color: #ff5b5b;
+}
+
+.logout-btn:hover {
+  background: #ff5b5b;
   color: white;
 }
 
-/* Forms (Right) */
+/* Right Details Card */
+.details-card h3 {
+  margin-bottom: 25px;
+  font-size: 1.4rem;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 20px;
 }
 
-.location-full { grid-column: span 2; }
+.input-group label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  margin-left: 4px;
+  font-weight: 800;
+}
+
+.location-full, .full-width {
+  grid-column: span 2;
+}
 
 input {
   width: 100%;
-  padding: 15px;
-  border: 1px solid #e0e5f2;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  font-size: 15px;
+  color: var(--text-dark);
+  transition: border 0.2s;
+  background: var(--white);
 }
 
+input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(68, 131, 242, 0.05);
+}
+
+.readonly-input {
+  background: #f8f9fc;
+  cursor: not-allowed;
+  color: #a3aed0;
+}
+
+/* Form Actions */
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .btn-save {
   background: var(--primary-blue);
   color: white;
-  padding: 12px 40px;
-  border-radius: 12px;
+  padding: 14px 45px;
   border: none;
+  border-radius: 14px;
+  font-weight: 700;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
 }
 
 .btn-cancel {
-  background: white;
-  border: 1px solid #e0e5f2;
-  padding: 12px 40px;
-  border-radius: 12px;
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  padding: 14px 30px;
+  border-radius: 14px;
+  font-weight: 600;
   cursor: pointer;
+  color: var(--text-muted);
+}
+
+/* --- Loading State --- */
+.loading-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e0e5f2;
+  border-top: 4px solid var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 1024px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    width: 80px;
+  }
+  .nav-item span, .sidebar-footer span {
+    display: none;
+  }
 }

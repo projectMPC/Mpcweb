@@ -21,7 +21,7 @@ const Home = () => {
     return;
   }
 
-  fetch(`http://localhost:5000/api/user/${regNo}`)
+ fetch(`https://mpcweb-5186.onrender.com/api/user/${regNo}`)
     .then((res) => {
       if (!res.ok) {
         throw new Error("Failed to fetch user");

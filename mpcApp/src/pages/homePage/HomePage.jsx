@@ -12,21 +12,34 @@ const Home = () => {
 
   // 🔥 Fetch user data from MongoDB
   useEffect(() => {
-    const regNo = localStorage.getItem("regNo");
+  const regNo = localStorage.getItem("regNo");
 
-    if (!regNo) {
-      console.log("No regNo found");
-      return;
-    }
+  console.log("regNo:", regNo);
 
-    fetch(`http://localhost:5000/api/user/${regNo}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("User Data:", data);
-        setFormData(data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  if (!regNo) {
+    console.log("No regNo found");
+    return;
+  }
+
+  fetch(`http://localhost:5000/api/user/${regNo}`)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log("User Data:", data);
+
+      if (!data || !data.regNo) {
+        console.log("Invalid user data");
+        return;
+      }
+
+      setFormData(data);
+    })
+    .catch((err) => console.log("Fetch Error:", err));
+}, []);
 
   // 🔹 Handle Input Change
   const handleChange = (e) => {

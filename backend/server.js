@@ -8,7 +8,7 @@ const feeRoutes = require("./routes/fees");
 const authRoutes = require("./routes/auth");
 const resultRoutes = require("./routes/result");
 const subjectRoutes = require("./routes/subject");
-const userRoutes = require("./routes/user"); // ✅ ADD THIS
+const userRoutes = require("./routes/user"); 
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use("/api", authRoutes);
 app.use("/api/fees", feeRoutes);
 app.use("/api/result", resultRoutes);
 app.use("/api/subjects", subjectRoutes);
-app.use("/api/user", userRoutes); // ✅ ADD THIS
+app.use("/api/user", userRoutes); 
 
 // Root route
 app.get("/", (req, res) => {
